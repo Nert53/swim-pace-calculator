@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final strokeRate = double.parse(strokeRateController.text);
     final length = double.parse(sectionLengthController.text);
 
-    double strokeTime = strokeRate / 60;
+    double strokeTime = 60 / strokeRate;
     double avgSpeed = length / time;
     double strokeLength = avgSpeed * strokeTime;
 
@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void updateResultTime() {
     final sectionLength = double.parse(sectionLengthController.text);
     final strokeLength = double.parse(strokeLengthController.text);
-    final strokeTime = double.parse(strokeRateController2.text) / 60;
+    final strokeTime = 60 / double.parse(strokeRateController2.text);
 
     setState(() {
       resultTimeController.text =
@@ -86,11 +86,36 @@ class _HomeScreenState extends State<HomeScreen> {
             style: TextStyle(fontSize: 24),
           ),
           centerTitle: true,
-          leading: const Icon(Icons.menu),
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets
+                .zero, // zpusobi ze se menu zobrazi barevne od horniho okraje
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                ),
+                child: const Text('umimplavat.cz'),
+              ),
+              ListTile(
+                leading: const Icon(FontAwesomeIcons.noteSticky),
+                title: const Text('How to use'),
+                onTap: () {
+                  _dialogInfo(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.info_outline),
+                title: const Text('About app'),
+                onTap: () {},
+              ),
+            ],
+          ),
         ),
         body: Center(
           child: SizedBox(
-            width: 360,
+            width: 350,
             child: Column(
               children: [
                 const SizedBox(height: 16),
@@ -146,7 +171,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 TextField(
                   controller: resultTimeController,
                   readOnly: true,
-                  style: TextStyle(color: resulTimeColor, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: resulTimeColor, fontWeight: FontWeight.bold),
                   decoration: InputDecoration(
                     prefixIcon: const Icon(Icons.label),
                     enabledBorder: OutlineInputBorder(
@@ -282,4 +308,36 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ));
   }
+}
+
+Future<void> _dialogInfo(BuildContext context) {
+  Navigator.pop(context);
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('How to use this app'),
+        content: const Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('This app is used to calculate the time\n'
+                'of a section based on the stroke rate\n'
+                'and stroke length. The calculation is\n'
+                'based on the formulas:\n'),
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.labelLarge,
+            ),
+            child: const Text('Close'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
