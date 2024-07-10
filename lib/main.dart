@@ -1,9 +1,12 @@
 import 'package:code/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 const double itemsBetweenSpace = 16;
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);  // lock orientation to portrait
   runApp(const MyApp());
 }
 
