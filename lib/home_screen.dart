@@ -1,9 +1,13 @@
+import 'package:code/data/database_service.dart';
+import 'package:code/model/all_values.dart';
 import 'package:code/saved_values_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hold_down_button/hold_down_button.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:shortuid/shortuid.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -86,6 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
       return;
     }
 
+    final DatabaseService _databaseService = DatabaseService.instance;
+
     setState(() {
       resultTimeController.text =
           newSectionTime(sectionLength, strokeLength, strokeTime)
@@ -152,7 +158,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               ListTile(
                 leading: const Icon(Icons.storage_outlined),
-                enabled: false,
                 title: const Text('Saved data'),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -480,8 +485,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(
                       height: 32,
                     ),
-                    /* ElevatedButton(
-                      onPressed: saveValues,
+                    ElevatedButton(
+                      onPressed: () {
+                        if (resultTimeController.text.isNotEmpty) {
+                          saveValues();
+                          displaySnackBar(context, 'Data saved successfully!',
+                              color: Colors.green);
+                        } else {
+                          displaySnackBar(context,
+                              'Please calculate the result time first!');
+                        }
+                      },
                       child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -496,7 +510,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(
                       height: 16,
                     ),
-                    */
                   ],
                 ),
               ),
@@ -505,7 +518,38 @@ class _HomeScreenState extends State<HomeScreen> {
         ));
   }
 
-  void saveValues() {}
+  void saveValues() async {
+    var dateNow = DateTime.now();
+    var formatedDate = DateFormat('HH:mm | yyyy-MM-dd').format(dateNow);
+    var id = ShortUid.create();
+
+    AllValues newRecord = AllValues(
+        id: id,
+        originalTime: timeController.text,
+        originalStrokeRate: strokeRateController.text,
+        sectionLength: sectionLengthController.text,
+        newTime: resultTimeController.text,
+        newStrokeRate: strokeRateController2.text,
+        newStrokeLength: strokeLengthController.text,
+        date: formatedDate);
+
+    await DatabaseService.instance.addValue(newRecord);
+  }
+}
+
+void displaySnackBar(BuildContext context, String message,
+    {Color color = Colors.grey}) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+      duration: const Duration(milliseconds: 2500),
+      backgroundColor: color,
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+    ),
+  );
 }
 
 Future<void> _dialogInfo(BuildContext context, String title, String content) {

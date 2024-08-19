@@ -38,6 +38,7 @@ dependencies:
   flutter_native_splash: ^2.4.1
   device_preview: ^1.2.0
   flutter_markdown: ^0.7.3+1
+  shortuid: ^1.0.0
 
 # edits app icons accross platforms (!! mac and windows must be done again)
 flutter_launcher_icons:
@@ -69,7 +70,7 @@ flutter_native_splash:
 
   image: assets/icon/umim_icon.png
 
-  branding: assets/branding/umim_branding.png
+  #branding: assets/branding/umim_branding.png
   # branding_bottom_padding: 0
 
   # The color_dark, background_image_dark, image_dark, branding_dark are parameters that set the background
@@ -90,7 +91,7 @@ flutter_native_splash:
 
     #icon_background_color: "#111111"
 
-    branding: assets/branding/umim_branding.png
+    #branding: assets/branding/umim_branding.png
 
     # The image_dark, color_dark, icon_background_color_dark, and branding_dark set values that
     # apply when the device is in dark mode. If they are not specified, the app will use the
@@ -124,7 +125,7 @@ flutter_native_splash:
   #background_image_web: "assets/background-web.png"
   #background_image_dark_web: "assets/dark-background-web.png"
   #branding_android: assets/brand-android.png
-  branding_bottom_padding_android: 0
+  #branding_bottom_padding_android: 0
   #branding_dark_android: assets/dart_dark-android.png
   #branding_ios: assets/brand-ios.png
   #branding_bottom_padding_ios: 24
