@@ -12,6 +12,7 @@ class SavedValuesScreen extends StatefulWidget {
 class _SavedValuesScreenState extends State<SavedValuesScreen> {
   late List<AllValues> _records = [];
   bool isLoading = false;
+  final noteTextController = TextEditingController();
 
   Future<void> _getAllRecords() async {
     setState(() {
@@ -29,6 +30,56 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
   void initState() {
     _getAllRecords();
     super.initState();
+  }
+
+  void editNoteDialog(AllValues record) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Edit note for this record'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              TextField(
+                controller: noteTextController..text = record.noteText,
+                maxLines: 3,
+                decoration: const InputDecoration(border: OutlineInputBorder()),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    'Record from: ${record.date}',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontStyle: FontStyle.italic),
+                  ),
+                  const SizedBox(width: 20),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(Icons.close_outlined),
+                      color: Colors.red),
+                  IconButton(
+                    onPressed: () {
+                      record.noteText = noteTextController.text;
+                      DatabaseService.instance.updateValue(record);
+                      Navigator.of(context).pop();
+                      _getAllRecords();
+                    },
+                    icon: const Icon(Icons.save_outlined),
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -51,7 +102,7 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Row(
+                        const Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             Icon(Icons.timer_outlined),
@@ -59,7 +110,7 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
                             Text('... original measured time'),
                           ],
                         ),
-                        Row(
+                        const Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             Icon(Icons.trending_up_outlined),
@@ -67,7 +118,7 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
                             Text('... original measured SR'),
                           ],
                         ),
-                        Row(
+                        const Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             Icon(Icons.straighten_outlined),
@@ -75,14 +126,22 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
                             Text('... original measured section length'),
                           ],
                         ),
-                        Divider(),
+                        const Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            Icon(Icons.sticky_note_2_outlined),
+                            SizedBox(width: 8),
+                            Text('... editable note'),
+                          ],
+                        ),
+                        const Divider(),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             Icon(Icons.timer,
                                 color: Theme.of(context).colorScheme.primary),
-                            SizedBox(width: 8),
-                            Text('... calculated time'),
+                            const SizedBox(width: 8),
+                            const Text('... new swim time'),
                           ],
                         ),
                         Row(
@@ -92,19 +151,19 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
                               Icons.trending_up,
                               color: Theme.of(context).colorScheme.primary,
                             ),
-                            SizedBox(width: 8),
-                            Text('... calculated SR'),
+                            const SizedBox(width: 8),
+                            const Text('... calculated SR'),
                           ],
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
                             ImageIcon(
-                              AssetImage('assets/icons/arrow_range.png'),
+                              const AssetImage('assets/icons/arrow_range.png'),
                               color: Theme.of(context).colorScheme.primary,
                             ),
-                            SizedBox(width: 8),
-                            Text('... calculated SL'),
+                            const SizedBox(width: 8),
+                            const Text('... calculated SL'),
                           ],
                         ),
                       ],
@@ -128,7 +187,7 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
           child: isLoading
               ? const CircularProgressIndicator()
               : _records.isEmpty
-                  ? const Text('No values added yet.',
+                  ? const Text('No values saved yet.',
                       style: TextStyle(fontSize: 20))
                   : buildValueList()),
     );
@@ -159,21 +218,21 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    Icon(Icons.timer_outlined),
+                    const Icon(Icons.timer_outlined),
                     const SizedBox(width: 8),
                     Text('${record.originalTime} s'),
                   ],
                 ),
                 Row(
                   children: <Widget>[
-                    Icon(Icons.trending_up_outlined),
+                    const Icon(Icons.trending_up_outlined),
                     const SizedBox(width: 8),
                     Text('${record.originalStrokeRate} cycles/min'),
                   ],
                 ),
                 Row(
                   children: <Widget>[
-                    Icon(Icons.straighten_outlined),
+                    const Icon(Icons.straighten_outlined),
                     const SizedBox(width: 8),
                     Text('${record.sectionLength} m'),
                   ],
@@ -194,35 +253,61 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
                       Icons.trending_up,
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Text('${record.newStrokeRate} cycles/min'),
                   ],
                 ),
                 Row(
                   children: <Widget>[
                     ImageIcon(
-                      AssetImage('assets/icons/arrow_range.png'),
+                      const AssetImage('assets/icons/arrow_range.png'),
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Text('${record.newStrokeLength} m'),
                   ],
-                )
+                ),
+                Row(
+                  children: <Widget>[
+                    const Icon(Icons.sticky_note_2_outlined),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                          maxLines: 5,
+                          overflow: TextOverflow.clip,
+                          record.noteText),
+                    ),
+                  ],
+                ),
               ],
             ),
             subtitle: Text('Saved on: ${record.date}',
                 style: const TextStyle(color: Colors.blueGrey)),
-            trailing: IconButton(
-              icon: const Icon(
-                Icons.delete_outlined,
-                color: Colors.red,
-                size: 30,
-              ),
-              tooltip: 'Permanently delete this values.',
-              onPressed: () async {
-                await DatabaseService.instance.deleteValue(record.id);
-                _getAllRecords();
-              },
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.edit_note_outlined,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    editNoteDialog(record);
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.delete_outlined,
+                    color: Colors.red,
+                    size: 30,
+                  ),
+                  tooltip: 'Permanently delete this values.',
+                  onPressed: () async {
+                    await DatabaseService.instance.deleteValue(record.id);
+                    _getAllRecords();
+                  },
+                ),
+              ],
             ),
           ),
         );

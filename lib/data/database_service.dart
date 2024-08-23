@@ -34,7 +34,8 @@ class DatabaseService {
             ${AllValuesFields.newTime} TEXT,
             ${AllValuesFields.newStrokeRate} TEXT,
             ${AllValuesFields.newStrokeLength} TEXT, 
-            ${AllValuesFields.date} TEXT)''');
+            ${AllValuesFields.date} TEXT,
+            ${AllValuesFields.noteText} TEXT)''');
   }
 
   Future close() async {
@@ -49,12 +50,23 @@ class DatabaseService {
     return true;
   }
 
+  Future<bool> updateValue(AllValues value) async {
+    final db = await instance.database;
+
+    await db.update(tableAllValues, value.toJson(),
+        where: '${AllValuesFields.id} = ?', whereArgs: [value.id]);
+    return true;
+  }
+
   Future<List<AllValues>> getValues() async {
     final db = await instance.database;
     final result = await db.query(tableAllValues);
-    var test = result.map((json) => AllValues.fromJson(json)).toList();
 
-    return result.map((json) => AllValues.fromJson(json)).toList();
+    return result
+        .map((json) => AllValues.fromJson(json))
+        .toList()
+        .reversed
+        .toList();
   }
 
   Future<int> deleteValue(String id) async {

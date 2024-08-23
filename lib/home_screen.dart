@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final resultTimeController = TextEditingController();
   final strokeRateController2 = TextEditingController();
   final strokeLengthController = TextEditingController();
+  final noteTextDialogController = TextEditingController();
 
   var resulTimeColor = Colors.black;
   bool calculateButtonClick = false;
@@ -90,8 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
       return;
     }
 
-    final DatabaseService _databaseService = DatabaseService.instance;
-
     setState(() {
       resultTimeController.text =
           newSectionTime(sectionLength, strokeLength, strokeTime)
@@ -147,10 +146,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   _dialogInfo(
                       context,
                       'How to use',
-                      '\na) The coach set the **section length** of the clean swim area that is gonna be measured. '
+                      '\na) a)	The coach sets the section length of the clean swim area that will be measured. If possible, we recommend using the standard clean swim area of 15-45 m (50 m pool) or 10- 20 m (25 m pool). '
                           '\n\nb) The swimmer swim selected **section length**, while the coach measures the **time** and **SR**. '
-                          '\n\nc) Coach adds the **time** and **SR** in the app and press calculate (result time should be equal to the time, that the coach measured). '
-                          '\n\nd) By increasing or decreasing **SR/SL** you can observe potential changes in **result time**. '
+                          '\n\nc) The coach inputs the **time** and **SR** in the app and press "calculate". The new swim time should  correspond the measured time (if not, please press the "calculate" button twice). '
+                          '\n\nd) By adjsuting **SR/SL** you can observe potential changes in **new swim time**. '
                           '\n\n **SR**  ... stroke rate [cycles/min]'
                           '\n\n **SL** ... stroke length [m] '
                           '\n\n _Taping the "+" or "-" button will increase/decrease the value by 0.01 and if hold it it will be changed by 0.1._');
@@ -172,26 +171,39 @@ class _HomeScreenState extends State<HomeScreen> {
                   _dialogInfo(
                     context,
                     'About app',
-                    'Version 0.9'
-                        '\n\nCreator: Vojtech Netrh'
-                        '\n\nIdea Maker: Marek Polach (umimplavat.cz)'
-                        '\n\nThis app serves to calculate potential average changes in clean swim time based on the change of two main parameters responsible for swimming speed: **stroke rate (_SR_)** and **stroke length (_SL_)**.'
-                        ' **Swimming speed (_V_)** is calculated as _V = SR * SL_. The hypothetical **new swim time** is calculated by adjusting one parameter while maintaining the second parameter constant (unchanged). By inputting different values for _SR_ and _SL_, users can see how potential changes in _SR_ or _SL_ (or both) could theoretically affect their **clean swim time**.'
-                        ' The average recalculation of the **new swim time** works under the assumption of changing one parameter (e.g., increasing _SR_) while keeping the second parameter constant (e.g., increased _SR_ with the same _SL_ as before). The **new swim time** is a potential prediction of how the swimmer would reduce his/her **clean swim time** based on the corresponding aforementioned _SR/SL_ change.',
+                    'Version 1.0'
+                        '\n\nOriginal idea: Raul Arellano '
+                        '\n\nAuthor: umimplavat.cz '
+                        '\n\nCreator: Vojtech Netrh '
+                        '\n\nThis app calculates how potential changes in two key performance parameters - **stroke rate (_SR_)** and **stroke length (_SL_)** - affect the average clean swim time.'
+                        ' **Swimming speed (_V_)** results from the optimal balance between **SR** and **SL** (_V = SR * SL_).'
+                        ' Users can adjust **SR** and **SL** values to estimate potential average changes in clean swim time.'
+                        ' The app calculates a new swim time by varying one parameter (e.g., increasing SR) while keeping the other constant, or by varying both parameters.'
+                        ' This helps swimmers better understand how even small adjustments in **SR** or **SL** can significantly impact their swim times.',
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.payments_outlined),
+                title: const Text('Support us'),
+                onTap: () {
+                  _dialogInfo(
+                    context,
+                    'Support us',
+                    'If you like our app and you want to support us, you can do it by sending a donation to our buymeacoffee.com account. '
+                        '\n\nThank you for your support!',
                   );
                 },
               ),
             ],
           ),
         ),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Text('© umimplavat.cz 2024',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold)),
+        bottomNavigationBar: const Padding(
+          padding: EdgeInsets.only(bottom: 4.0),
+          child: Image(
+            image: AssetImage('assets/images/UMIM_logo_RGB-10.png'),
+            height: 50,
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -244,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     const SizedBox(
-                      height: 32,
+                      height: 28,
                     ),
                     Row(
                       children: [
@@ -266,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         const SizedBox(
-                          width: 16,
+                          width: 12,
                         ),
                         ElevatedButton(
                           onPressed: () {
@@ -282,20 +294,24 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.clear),
+                                Icon(
+                                  Icons.delete_forever,
+                                  size: 26,
+                                ),
                                 SizedBox(width: 8),
                                 Text(
                                   'Clear',
                                   style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 )
                               ]),
                         ),
                       ],
                     ),
                     const SizedBox(
-                      height: 32,
+                      height: 28,
                     ),
                     TextField(
                       controller: resultTimeController,
@@ -313,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     const SizedBox(
-                      height: 32,
+                      height: 28,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -341,7 +357,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     setState(() {
                                       final oldSR = double.parse(
                                           strokeRateController2.text);
-                                      final newSR = oldSR + 1;
+                                      final newSR = oldSR + 0.1;
                                       if (newSR > 0) {
                                         strokeRateController2.text =
                                             (newSR).toStringAsFixed(2);
@@ -353,7 +369,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       setState(() {
                                         final oldSR = double.parse(
                                             strokeRateController2.text);
-                                        final newSR = oldSR + 0.1;
+                                        final newSR = oldSR + 0.01;
                                         if (newSR > 0) {
                                           strokeRateController2.text =
                                               (newSR).toStringAsFixed(2);
@@ -368,7 +384,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     setState(() {
                                       final oldSR = double.parse(
                                           strokeRateController2.text);
-                                      final newSR = oldSR - 1;
+                                      final newSR = oldSR - 0.1;
                                       if (newSR > 0) {
                                         strokeRateController2.text =
                                             (newSR).toStringAsFixed(2);
@@ -380,7 +396,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       setState(() {
                                         final oldSR = double.parse(
                                             strokeRateController2.text);
-                                        final newSR = oldSR - 0.1;
+                                        final newSR = oldSR - 0.01;
                                         if (newSR > 0) {
                                           strokeRateController2.text =
                                               (newSR).toStringAsFixed(2);
@@ -489,8 +505,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       onPressed: () {
                         if (resultTimeController.text.isNotEmpty) {
                           saveValues();
-                          displaySnackBar(context, 'Data saved successfully!',
-                              color: Colors.green);
                         } else {
                           displaySnackBar(context,
                               'Please calculate the result time first!');
@@ -519,6 +533,40 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void saveValues() async {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text('Save data'),
+              content: Expanded(
+                child: TextField(
+                  controller: noteTextDialogController,
+                  decoration: const InputDecoration(
+                      labelText: 'Enter note for this record',
+                      border: OutlineInputBorder()),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('No',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary)),
+                ),
+                TextButton.icon(
+                  onPressed: () {
+                    doSaveValues(noteTextDialogController.text);
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.save),
+                  label: const Text('Yes'),
+                ),
+              ],
+            ));
+  }
+
+  void doSaveValues(String noteText) async {
     var dateNow = DateTime.now();
     var formatedDate = DateFormat('HH:mm | yyyy-MM-dd').format(dateNow);
     var id = ShortUid.create();
@@ -531,9 +579,14 @@ class _HomeScreenState extends State<HomeScreen> {
         newTime: resultTimeController.text,
         newStrokeRate: strokeRateController2.text,
         newStrokeLength: strokeLengthController.text,
-        date: formatedDate);
+        date: formatedDate,
+        noteText: noteText);
 
-    await DatabaseService.instance.addValue(newRecord);
+    if (await DatabaseService.instance.addValue(newRecord)) {
+      displaySnackBar(context, 'Data saved successfully!', color: Colors.green);
+    } else {
+      displaySnackBar(context, 'Data could not be saved!', color: Colors.red);
+    }
   }
 }
 

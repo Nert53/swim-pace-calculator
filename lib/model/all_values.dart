@@ -9,7 +9,8 @@ class AllValuesFields {
     newTime,
     newStrokeRate,
     newStrokeLength,
-    date
+    date,
+    noteText
   ];
 
   static const String id = '_id';
@@ -20,6 +21,7 @@ class AllValuesFields {
   static const String newStrokeRate = 'newStrokeRate';
   static const String newStrokeLength = 'newStrokeLength';
   static const String date = 'date';
+  static const String noteText = 'noteText';
 }
 
 class AllValues {
@@ -31,6 +33,7 @@ class AllValues {
   final String newStrokeRate;
   final String newStrokeLength;
   final String date;
+  String noteText;
 
   AllValues({
     required this.id,
@@ -41,6 +44,7 @@ class AllValues {
     required this.newStrokeRate,
     required this.newStrokeLength,
     required this.date,
+    this.noteText = '',
   });
 
   Map<String, Object?> toJson() {
@@ -53,6 +57,7 @@ class AllValues {
       AllValuesFields.newStrokeRate: newStrokeRate,
       AllValuesFields.newStrokeLength: newStrokeLength,
       AllValuesFields.date: date,
+      AllValuesFields.noteText: noteText,
     };
   }
 
@@ -66,6 +71,7 @@ class AllValues {
       newStrokeRate: json[AllValuesFields.newStrokeRate] as String,
       newStrokeLength: json[AllValuesFields.newStrokeLength] as String,
       date: json[AllValuesFields.date] as String,
+      noteText: json[AllValuesFields.noteText] as String,
     );
   }
 
@@ -79,6 +85,7 @@ class AllValues {
     String? newStrokeRate,
     String? newStrokeLength,
     String? date,
+    String? noteText,
   }) =>
       AllValues(
         id: id ?? this.id,
@@ -89,5 +96,6 @@ class AllValues {
         newStrokeRate: newStrokeRate ?? this.newStrokeRate,
         newStrokeLength: newStrokeLength ?? this.newStrokeLength,
         date: date ?? this.date,
+        noteText: noteText ?? this.noteText,
       );
 }
