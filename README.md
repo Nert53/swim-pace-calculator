@@ -28,3 +28,7 @@ This helps swimmers better understand how even small adjustments in **SR** or **
 **Author:** [umimplavat.cz](https://umimplavat.cz/)
 
 **Creator:** Vojtech Netrh
+
+## Want to support us
+
+ If you would like to support us please write an email to this adress [marek@umimplavat.cz].
