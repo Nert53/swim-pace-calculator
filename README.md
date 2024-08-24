@@ -31,4 +31,10 @@ This helps swimmers better understand how even small adjustments in **SR** or **
 
 ## Want to support us
 
- If you would like to support us please write an email to this adress [marek@umimplavat.cz].
+ If you would like to support us please reach <a href="mailto:marek@umimplavat.cz">Marek Polach</a>.
+
+ ## TODO
+
+- [ ] translation to czech
+
+- [ ] scrollable dialog windows
