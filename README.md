@@ -38,3 +38,5 @@ This helps swimmers better understand how even small adjustments in **SR** or **
 - [ ] translation to czech
 
 - [ ] scrollable dialog windows
+
+- [ ] trailing time change in new clean time 
