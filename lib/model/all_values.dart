@@ -26,12 +26,12 @@ class AllValuesFields {
 
 class AllValues {
   final String id;
-  final String originalTime;
-  final String originalStrokeRate;
-  final String sectionLength;
-  final String newTime;
-  final String newStrokeRate;
-  final String newStrokeLength;
+  final double originalTime;
+  final double originalStrokeRate;
+  final double sectionLength;
+  final double newTime;
+  final double newStrokeRate;
+  final double newStrokeLength;
   final String date;
   String noteText;
 
@@ -64,12 +64,12 @@ class AllValues {
   static AllValues fromJson(Map<String, Object?> json) {
     return AllValues(
       id: json[AllValuesFields.id] as String,
-      originalTime: json[AllValuesFields.originalTime] as String,
-      originalStrokeRate: json[AllValuesFields.originalStrokeRate] as String,
-      sectionLength: json[AllValuesFields.sectionLength] as String,
-      newTime: json[AllValuesFields.newTime] as String,
-      newStrokeRate: json[AllValuesFields.newStrokeRate] as String,
-      newStrokeLength: json[AllValuesFields.newStrokeLength] as String,
+      originalTime: json[AllValuesFields.originalTime] as double,
+      originalStrokeRate: json[AllValuesFields.originalStrokeRate] as double,
+      sectionLength: json[AllValuesFields.sectionLength] as double,
+      newTime: json[AllValuesFields.newTime] as double,
+      newStrokeRate: json[AllValuesFields.newStrokeRate] as double,
+      newStrokeLength: json[AllValuesFields.newStrokeLength] as double,
       date: json[AllValuesFields.date] as String,
       noteText: json[AllValuesFields.noteText] as String,
     );
@@ -77,13 +77,13 @@ class AllValues {
 
   AllValues copy({
     String? id,
-    String? originalTime,
-    String? originalStrokeRate,
-    String? sectionLength,
-    String? sectionTime,
-    String? newTime,
-    String? newStrokeRate,
-    String? newStrokeLength,
+    double? originalTime,
+    double? originalStrokeRate,
+    double? sectionLength,
+    double? sectionTime,
+    double? newTime,
+    double? newStrokeRate,
+    double? newStrokeLength,
     String? date,
     String? noteText,
   }) =>

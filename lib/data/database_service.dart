@@ -28,12 +28,12 @@ class DatabaseService {
     await db.execute('''
           CREATE TABLE $tableAllValues (
             ${AllValuesFields.id} TEXT PRIMARY KEY,
-            ${AllValuesFields.originalTime} TEXT,
-            ${AllValuesFields.originalStrokeRate} TEXT,
-            ${AllValuesFields.sectionLength} TEXT,
-            ${AllValuesFields.newTime} TEXT,
-            ${AllValuesFields.newStrokeRate} TEXT,
-            ${AllValuesFields.newStrokeLength} TEXT, 
+            ${AllValuesFields.originalTime} REAL,
+            ${AllValuesFields.originalStrokeRate} REAL,
+            ${AllValuesFields.sectionLength} REAL,
+            ${AllValuesFields.newTime} REAL,
+            ${AllValuesFields.newStrokeRate} REAL,
+            ${AllValuesFields.newStrokeLength} REAL, 
             ${AllValuesFields.date} TEXT,
             ${AllValuesFields.noteText} TEXT)''');
   }

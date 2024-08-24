@@ -171,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   _dialogInfo(
                     context,
                     'About app',
-                    'Version 1.0'
+                    'Version 1.1'
                         '\n\nOriginal idea: Raul Arellano '
                         '\n\nAuthor: umimplavat.cz '
                         '\n\nCreator: Vojtech Netrh '
@@ -180,18 +180,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ' Users can adjust **SR** and **SL** values to estimate potential average changes in clean swim time.'
                         ' The app calculates a new swim time by varying one parameter (e.g., increasing SR) while keeping the other constant, or by varying both parameters.'
                         ' This helps swimmers better understand how even small adjustments in **SR** or **SL** can significantly impact their swim times.',
-                  );
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.payments_outlined),
-                title: const Text('Support us'),
-                onTap: () {
-                  _dialogInfo(
-                    context,
-                    'Support us',
-                    'If you like our app and you want to support us, you can do it by sending a donation to our buymeacoffee.com account. '
-                        '\n\nThank you for your support!',
                   );
                 },
               ),
@@ -213,6 +201,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 constraints: const BoxConstraints(maxWidth: 380, minWidth: 340),
                 child: Column(
                   children: [
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: sectionLengthController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(
+                            r'(^-?\d*\.?\d*)')) // allows only decimal numbers to enter (with dot)
+                      ],
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.straighten),
+                        border: OutlineInputBorder(),
+                        labelText: 'Section Length [m]',
+                      ),
+                    ),
                     const SizedBox(height: 16),
                     TextField(
                       controller: timeController,
@@ -239,20 +241,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         prefixIcon: Icon(Icons.trending_up),
                         border: OutlineInputBorder(),
                         labelText: 'Stroke Rate [cyclces/min]',
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    TextField(
-                      controller: sectionLengthController,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp(
-                            r'(^-?\d*\.?\d*)')) // allows only decimal numbers to enter (with dot)
-                      ],
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.straighten),
-                        border: OutlineInputBorder(),
-                        labelText: 'Section Length [m]',
                       ),
                     ),
                     const SizedBox(
@@ -548,19 +536,20 @@ class _HomeScreenState extends State<HomeScreen> {
               actions: [
                 TextButton(
                   onPressed: () {
+                    noteTextDialogController.clear();
                     Navigator.pop(context);
                   },
-                  child: Text('No',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary)),
+                  child: const Text('Discard',
+                      style: TextStyle(color: Colors.red)),
                 ),
                 TextButton.icon(
                   onPressed: () {
                     doSaveValues(noteTextDialogController.text);
+                    noteTextDialogController.clear();
                     Navigator.pop(context);
                   },
                   icon: const Icon(Icons.save),
-                  label: const Text('Yes'),
+                  label: const Text('Save'),
                 ),
               ],
             ));
@@ -568,17 +557,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void doSaveValues(String noteText) async {
     var dateNow = DateTime.now();
-    var formatedDate = DateFormat('HH:mm | yyyy-MM-dd').format(dateNow);
+    var formatedDate = DateFormat('HH:mm | dd. MM. yyyy').format(dateNow);
     var id = ShortUid.create();
 
     AllValues newRecord = AllValues(
         id: id,
-        originalTime: timeController.text,
-        originalStrokeRate: strokeRateController.text,
-        sectionLength: sectionLengthController.text,
-        newTime: resultTimeController.text,
-        newStrokeRate: strokeRateController2.text,
-        newStrokeLength: strokeLengthController.text,
+        originalTime: double.parse(timeController.text),
+        originalStrokeRate: double.parse(strokeRateController.text),
+        sectionLength: double.parse(sectionLengthController.text),
+        newTime: double.parse(resultTimeController.text),
+        newStrokeRate: double.parse(strokeRateController2.text),
+        newStrokeLength: double.parse(strokeLengthController.text),
         date: formatedDate,
         noteText: noteText);
 
