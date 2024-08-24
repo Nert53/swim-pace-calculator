@@ -107,7 +107,7 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
                           children: <Widget>[
                             Icon(Icons.timer_outlined),
                             SizedBox(width: 8),
-                            Text('... original measured time'),
+                            Text('... measured time'),
                           ],
                         ),
                         const Row(
@@ -115,7 +115,7 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
                           children: <Widget>[
                             Icon(Icons.trending_up_outlined),
                             SizedBox(width: 8),
-                            Text('... original measured SR'),
+                            Text('... measured SR'),
                           ],
                         ),
                         const Row(
@@ -123,7 +123,7 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
                           children: <Widget>[
                             Icon(Icons.straighten_outlined),
                             SizedBox(width: 8),
-                            Text('... original measured section length'),
+                            Text('... measured section length'),
                           ],
                         ),
                         const Row(

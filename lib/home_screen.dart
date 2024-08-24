@@ -146,13 +146,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   _dialogInfo(
                       context,
                       'How to use',
-                      '\na) a)	The coach sets the section length of the clean swim area that will be measured. If possible, we recommend using the standard clean swim area of 15-45 m (50 m pool) or 10- 20 m (25 m pool). '
+                      '\na)	The coach sets the section length of the clean swim area that will be measured. If possible, we recommend using the standard clean swim area of 15-45 m (50m pool) or 10-20 m (25m pool). '
                           '\n\nb) The swimmer swim selected **section length**, while the coach measures the **time** and **SR**. '
                           '\n\nc) The coach inputs the **time** and **SR** in the app and press "calculate". The new swim time should  correspond the measured time (if not, please press the "calculate" button twice). '
                           '\n\nd) By adjsuting **SR/SL** you can observe potential changes in **new swim time**. '
                           '\n\n **SR**  ... stroke rate [cycles/min]'
                           '\n\n **SL** ... stroke length [m] '
-                          '\n\n _Taping the "+" or "-" button will increase/decrease the value by 0.01 and if hold it it will be changed by 0.1._');
+                          '\n\n _Taping the "+" or "-" button will increase/decrease the value by 0.01 and while holding it will be changed by 0.1._');
                 },
               ),
               ListTile(
