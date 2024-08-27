@@ -525,13 +525,11 @@ class _HomeScreenState extends State<HomeScreen> {
         context: context,
         builder: (context) => AlertDialog(
               title: const Text('Save data'),
-              content: Expanded(
-                child: TextField(
-                  controller: noteTextDialogController,
-                  decoration: const InputDecoration(
-                      labelText: 'Enter note for this record',
-                      border: OutlineInputBorder()),
-                ),
+              content: TextField(
+                controller: noteTextDialogController,
+                decoration: const InputDecoration(
+                    labelText: 'Enter note for this record',
+                    border: OutlineInputBorder()),
               ),
               actions: [
                 TextButton(
