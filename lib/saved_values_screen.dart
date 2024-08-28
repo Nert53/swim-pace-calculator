@@ -37,7 +37,19 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Edit note for this record'),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Edit note for this record'),
+              Text(
+                'Record from: ${record.date}',
+                style: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context).colorScheme.secondary,
+                    fontStyle: FontStyle.italic),
+              ),
+            ],
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,15 +60,8 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
                 decoration: const InputDecoration(border: OutlineInputBorder()),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    'Record from: ${record.date}',
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontStyle: FontStyle.italic),
-                  ),
-                  const SizedBox(width: 20),
                   IconButton(
                       onPressed: () {
                         Navigator.of(context).pop();

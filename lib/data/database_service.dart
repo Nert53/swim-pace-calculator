@@ -60,7 +60,14 @@ class DatabaseService {
 
   Future<List<AllValues>> getValues() async {
     final db = await instance.database;
-    final result = await db.query(tableAllValues);
+    List<Map<String, Object?>> result;
+
+    // the table in DB has not been created yet
+    try {
+      result = await db.query(tableAllValues);
+    } catch (e) {
+      return [];
+    }
 
     return result
         .map((json) => AllValues.fromJson(json))
