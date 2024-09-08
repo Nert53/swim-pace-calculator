@@ -120,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.primaryContainer,
           title: const Text(
-            "Swim Pace Calculator",
+            "Swim Time Calculator",
             style: TextStyle(fontSize: 24),
           ),
           centerTitle: true,
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Theme.of(context).colorScheme.primaryContainer,
                 ),
                 child: const Text(
-                  'Swim Pace Calculator',
+                  'Swim Time Calculator',
                   style: TextStyle(fontSize: 20),
                 ),
               ),
@@ -597,15 +597,18 @@ Future<void> _dialogInfo(BuildContext context, String title, String content) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
+        scrollable: true,
         title: Text(title),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            MarkdownBody(
-              data: content,
-            ),
-          ],
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              MarkdownBody(
+                data: content,
+              ),
+            ],
+          ),
         ),
         actions: <Widget>[
           TextButton(
