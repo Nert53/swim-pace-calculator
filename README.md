@@ -29,6 +29,9 @@ This helps swimmers better understand how even small adjustments in **SR** or **
 
 **Creator:** Vojtech Netrh
 
+## Support Contant
+If you have any questions please contact us on marek@umimplavat.cz or vojtanetrh@gmail.com.
+
 ## Want to support us
 
  If you would like to support us please reach <a href="mailto:marek@umimplavat.cz">Marek Polach</a>.
