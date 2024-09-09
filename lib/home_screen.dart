@@ -58,9 +58,12 @@ class _HomeScreenState extends State<HomeScreen> {
       return;
     }
 
-    final time = double.parse(timeController.text);
-    final strokeRate = double.parse(strokeRateController.text);
-    final length = double.parse(sectionLengthController.text);
+    final time = double.parse(timeController.text.replaceAll(
+        ',', '.')); // need to replace comma with dot (mainly for ios users)
+    final strokeRate =
+        double.parse(strokeRateController.text.replaceAll(',', '.'));
+    final length =
+        double.parse(sectionLengthController.text.replaceAll(',', '.'));
 
     double strokeTime = 60 / strokeRate;
     double avgSpeed = length / time;
@@ -78,12 +81,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void updateResultTime() {
-    final sectionLength = double.parse(sectionLengthController.text);
+    final sectionLength = double.parse(sectionLengthController.text.replaceAll(',', '.'));
     final strokeLength = double.parse(strokeLengthController.text);
     final strokeTime = 60 / double.parse(strokeRateController2.text);
 
     if (calculateButtonClick) {
-      resultTimeController.text = double.parse(timeController.text)
+      resultTimeController.text = double.parse(timeController.text.replaceAll(',', '.'))
           .toStringAsFixed(
               2); // value will always be displayed wit 2 decimal places
       updateResultTimeColor();
@@ -100,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void updateResultTimeColor() {
-    final originalTime = double.parse(timeController.text);
+    final originalTime = double.parse(timeController.text.replaceAll(',', '.'));
     final resultTime = double.parse(resultTimeController.text);
 
     if (resultTime > originalTime) {
@@ -175,6 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         '\n\nOriginal idea: Raul Arellano '
                         '\n\nAuthor: umimplavat.cz '
                         '\n\nCreator: Vojtech Netrh '
+                        '\n\nSupport: umimplavat@gmail.com'
                         '\n\nThis app calculates how potential changes in two key performance parameters - **stroke rate (_SR_)** and **stroke length (_SL_)** - affect the average clean swim time.'
                         ' **Swimming speed (_V_)** results from the optimal balance between **SR** and **SL** (_V = SR * SL_).'
                         ' Users can adjust **SR** and **SL** values to estimate potential average changes in clean swim time.'
@@ -204,10 +208,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(height: 16),
                     TextField(
                       controller: sectionLengthController,
-                      keyboardType: TextInputType.number,
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
                       inputFormatters: [
                         FilteringTextInputFormatter.allow(RegExp(
-                            r'(^-?\d*\.?\d*)')) // allows only decimal numbers to enter (with dot)
+                            r'(^-?\d*[.,]?\d*)')) // allows only decimal numbers to enter (with dot or comma), comma will be converted later
                       ],
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.straighten),
@@ -218,10 +223,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(height: 16),
                     TextField(
                       controller: timeController,
-                      keyboardType: TextInputType.number,
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
                       inputFormatters: [
                         FilteringTextInputFormatter.allow(RegExp(
-                            r'(^-?\d*\.?\d*)')) // allows only decimal numbers to enter (with dot)
+                            r'(^-?\d*[.,]?\d*)')) // allows only decimal numbers to enter (with dot or comma), comma will be converted later
                       ],
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.timer_outlined),
@@ -232,10 +238,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(height: 16),
                     TextField(
                       controller: strokeRateController,
-                      keyboardType: TextInputType.number,
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
                       inputFormatters: [
                         FilteringTextInputFormatter.allow(RegExp(
-                            r'(^-?\d*\.?\d*)')) // allows only decimal numbers to enter (with dot)
+                            r'(^-?\d*[.,]?\d*)')) // allows only decimal numbers to enter (with dot or comma), comma will be converted later
                       ],
                       decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.trending_up),
