@@ -10,13 +10,15 @@ This helps swimmers better understand how even small adjustments in **SR** or **
   
 [<img height="42" src=".github/assets/google-play-badge.png">](https://play.google.com/store/apps/details?id=cz.umimplavat.swim_pace_calculator&pcampaignid=web_share)
 
+[<img width="140" src=".github/assets/app-store-badge.png">](https://apps.apple.com/us/app/swim-time-calculator/id6670363039?platform=iphone)
+
 </div>
 
 ## How our app looks like?
 
 <div align="center">
   
-![feature graphic](.github/assets/feature-graphic.png)
+![feature graphic](.github/assets/main-graphic.png)
 ![github screenshots graphic](.github/assets/github-graphic.png)
 
 </div>
