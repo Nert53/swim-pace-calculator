@@ -81,14 +81,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void updateResultTime() {
-    final sectionLength = double.parse(sectionLengthController.text.replaceAll(',', '.'));
+    final sectionLength =
+        double.parse(sectionLengthController.text.replaceAll(',', '.'));
     final strokeLength = double.parse(strokeLengthController.text);
     final strokeTime = 60 / double.parse(strokeRateController2.text);
 
     if (calculateButtonClick) {
-      resultTimeController.text = double.parse(timeController.text.replaceAll(',', '.'))
-          .toStringAsFixed(
-              2); // value will always be displayed wit 2 decimal places
+      resultTimeController.text =
+          double.parse(timeController.text.replaceAll(',', '.'))
+              .toStringAsFixed(
+                  2); // value will always be displayed wit 2 decimal places
       updateResultTimeColor();
       calculateButtonClick = false;
       return;
@@ -178,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         '\n\nOriginal idea: Raul Arellano '
                         '\n\nAuthor: umimplavat.cz '
                         '\n\nCreator: Vojtech Netrh '
-                        '\n\nSupport: umimplavat@gmail.com'
+                        '\n\nContact: umimplavat@gmail.com'
                         '\n\nThis app calculates how potential changes in two key performance parameters - **stroke rate (_SR_)** and **stroke length (_SL_)** - affect the average clean swim time.'
                         ' **Swimming speed (_V_)** results from the optimal balance between **SR** and **SL** (_V = SR * SL_).'
                         ' Users can adjust **SR** and **SL** values to estimate potential average changes in clean swim time.'
@@ -612,6 +614,7 @@ Future<void> _dialogInfo(BuildContext context, String title, String content) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               MarkdownBody(
+                selectable: true,
                 data: content,
               ),
             ],
