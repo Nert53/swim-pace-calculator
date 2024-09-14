@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:code/data/database_service.dart';
 import 'package:code/model/all_values.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,8 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
   late List<AllValues> _records = [];
   bool isLoading = false;
   final noteTextController = TextEditingController();
+
+  bool isUndoPressed = false;
 
   Future<void> _getAllRecords() async {
     setState(() {
@@ -134,7 +138,7 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
                         const Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
-                            Icon(Icons.sticky_note_2_outlined),
+                            Icon(Icons.notes_outlined),
                             SizedBox(width: 8),
                             Text('... editable note'),
                           ],
@@ -274,7 +278,7 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
                 ),
                 Row(
                   children: <Widget>[
-                    const Icon(Icons.sticky_note_2_outlined),
+                    const Icon(Icons.notes_outlined),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -306,10 +310,9 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
                     color: Colors.red,
                     size: 30,
                   ),
-                  tooltip: 'Permanently delete this values.',
+                  tooltip: 'Delete this value.',
                   onPressed: () async {
-                    await DatabaseService.instance.deleteValue(record.id);
-                    _getAllRecords();
+                    _deleteValue(record, index);
                   },
                 ),
               ],
@@ -317,6 +320,53 @@ class _SavedValuesScreenState extends State<SavedValuesScreen> {
           ),
         );
       },
+    );
+  }
+
+  void _deleteValue(AllValues record, int recordIndex) {
+    setState(() {
+      _records.remove(record);
+    });
+
+    displayUndoSnackbar(context, record, recordIndex);
+    Timer.periodic(const Duration(milliseconds: 3000), (timer) async {
+      if (isUndoPressed) {
+        timer.cancel();
+        isUndoPressed = false;
+        return;
+      } else {
+        DatabaseService.instance.deleteValue(record.id);
+        isUndoPressed = false;
+        setState(() {
+          _getAllRecords();
+        });
+      }
+    });
+  }
+
+  void displayUndoSnackbar(
+      BuildContext context, AllValues record, int recordIndex) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Values of ${record.date} was deleted.'),
+        duration: const Duration(milliseconds: 3000),
+        behavior: SnackBarBehavior.floating,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        action: SnackBarAction(
+          label: 'Undo',
+          textColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+          onPressed: () {
+            isUndoPressed = true;
+            setState(() {
+              _records.insert(recordIndex, record);
+            });
+          },
+        ),
+      ),
     );
   }
 }
